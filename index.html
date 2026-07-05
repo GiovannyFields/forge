@@ -1226,27 +1226,27 @@ function render(){
 
 /* ---- HOME ---- */
 const HOME_SLIDES=[
-  {n:'Tip 01',t:'Nutrition drives your results',
+  {n:'Tip 01',t:'Food builds the muscle',
    icon:'<path d="M12 3c-1 1.5-1 3 0 4M12 7a7 7 0 016 11c-1 1.4-2.7 2-6 2s-5-.6-6-2a7 7 0 016-11z"/>',
-   body:"Training breaks your muscles down, food is what rebuilds them stronger, so what you eat matters as much as what you lift. Aim for roughly 0.7 to 1 gram of protein per pound of bodyweight each day, spread across your meals so your body always has material to repair with. Do not fear carbs, they refuel your muscles and fuel hard sets. Eat enough total calories to support your goal, whether that is building muscle or losing fat, since a big deficit while trying to get stronger works against you. Whole foods and a little planning beat any supplement on the shelf."},
-  {n:'Tip 02',t:'Rest is where the growth happens',
+   body:"Lifting breaks you down, eating builds you back up. Get enough protein and enough food overall, or the work in the gym goes to waste."},
+  {n:'Tip 02',t:'Rest is not optional',
    icon:'<path d="M20 14.5A8 8 0 1110 4a6.5 6.5 0 0010 10.5z"/>',
-   body:"Every hard set creates a small amount of damage, and it is during the hours after training, not during the lift itself, that your body actually rebuilds that tissue stronger. Sleep is the single biggest recovery tool you have, so protect 7 to 9 hours a night whenever you can. Give a muscle group at least a day, sometimes two, before you train it hard again, and if you feel unusually run down, sore for days, or your lifts keep stalling, take an easy deload week instead of pushing through. Training hard is only half the equation, recovering well is the other half."},
-  {n:'Tip 03',t:'Consistency beats intensity every time',
+   body:"Muscle grows while you sleep, not while you lift. Get 7 to 9 hours, and give each muscle a day off before training it hard again."},
+  {n:'Tip 03',t:'Show up more than you go hard',
    icon:'<path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/>',
-   body:"Three solid workouts a week for a year will always beat six brutal ones a week for a month that burns you out by week five. Real strength and muscle come from small, repeated jumps over a long stretch of time, a little more weight, one more rep, slightly better form, session after session. Results in the mirror take weeks to show and months to really compound, so do not judge a single workout, or even a single week, and definitely do not compare your week one to someone else's year three. Show up on your bad days too, those are often the ones that matter most."},
-  {n:'Tip 04',t:'Good form protects your progress',
+   body:"Three workouts a week for a year beats six a week for a month you burn out on. Small wins, stacked over time, change your body."},
+  {n:'Tip 04',t:'Form over ego',
    icon:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
-   body:"The heaviest weight you can move with sloppy technique is never actually the best set, it just feels that way in the moment. Moving slower and under control, especially on the way down, builds more muscle than swinging a weight up and dropping it, and it keeps your joints healthy enough to keep training for years, not weeks. Injuries do not just hurt, they steal your consistency, which is the one thing that actually drives results. Think about the muscle doing the work instead of just moving the weight from point A to point B, and leave a rep or two in the tank on most sets."},
-  {n:'Tip 05',t:'Track it, trust it, and be patient',
+   body:"A lighter weight done right builds more muscle than a heavy one done wrong, and it keeps you training instead of hurt."},
+  {n:'Tip 05',t:'Track it and trust it',
    icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h11"/>',
-   body:"You cannot improve what you do not measure, so log your weight, reps and bodyweight here and let the numbers tell you the truth instead of guessing. Plateaus are a normal part of the process, not a sign that something is broken, and the fix is almost always more consistency, more sleep, or more food, not a brand new program every two weeks. Real transformations are usually measured in months, sometimes a year or more, not days, so give your plan a real chance before you judge it. Stick with the process, keep showing up, and let the small wins add up into a completely different body over time."},
+   body:"Log your sets so you know you are actually improving. Real change takes months, not days. Stick with it."},
 ];
 let homeSlide=0;
 function renderHome(){
   let h='<div class="homepage">'+
     '<div class="home-intro"><div class="home-mark">F</div><h1>Welcome to FORGE</h1>'+
-    '<p>FORGE builds you a complete training program around your goals, the equipment you actually have, and how many days you can realistically train, then keeps every animated exercise, your rest timer, and your progress all in one place. Swipe through a few quick training tips below, then jump in and build your program.</p></div>'+
+    '<p>Your program, built around your goals, your gear, and your schedule. A few quick tips first, then let\'s get to work.</p></div>'+
     '<div class="home-carousel-wrap">'+
       '<button class="hnav prev" id="hPrev" aria-label="Previous tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>'+
       '<button class="hnav next" id="hNext" aria-label="Next tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>'+
