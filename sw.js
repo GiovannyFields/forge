@@ -1,6 +1,6 @@
 /* FORGE service worker — offline-first for a static app.
    Bump CACHE when you ship changes so phones pull the new version. */
-const CACHE = 'forge-v3';
+const CACHE = 'forge-v4';
 const ASSETS = [
   './',
   './index.html',

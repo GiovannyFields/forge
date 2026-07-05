@@ -225,6 +225,32 @@
   .empty h3{font-family:var(--fd);font-size:19px;margin:0 0 6px}
   .empty p{font-size:14px;margin:0;color:var(--faint)}
 
+  /* Home / landing page */
+  body.home .appbar .ctx,body.home .appbar .sub{display:none}
+  body.home .navwrap{display:none}
+  .home-intro{padding:2px 2px 24px}
+  .home-mark{width:52px;height:52px;border-radius:15px;background:var(--brand);color:#f1ece1;display:grid;place-items:center;
+    font-family:var(--fd);font-weight:900;font-size:26px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+  .home-intro h1{font-family:var(--fd);font-size:29px;font-weight:800;letter-spacing:-.02em;margin:0 0 10px;line-height:1.08}
+  .home-intro p{color:var(--ink-2);font-size:15px;line-height:1.6;margin:0}
+  .home-carousel-wrap{position:relative;margin:0 -20px 18px}
+  .home-carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    gap:14px;padding:4px 20px 14px;scrollbar-width:none}
+  .home-carousel::-webkit-scrollbar{display:none}
+  .hslide{flex:0 0 100%;scroll-snap-align:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    padding:24px 22px 22px;box-shadow:var(--shadow-sm);min-height:230px;display:flex;flex-direction:column}
+  .hslide .hs-ico{width:48px;height:48px;border-radius:13px;background:var(--accent-soft);display:grid;place-items:center;margin-bottom:16px;flex-shrink:0}
+  .hslide .hs-n{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+  .hslide h3{font-family:var(--fd);font-size:19.5px;font-weight:800;margin:0 0 10px;letter-spacing:-.01em}
+  .hslide p{color:var(--ink-2);font-size:14px;line-height:1.62;margin:0}
+  .hnav{position:absolute;top:50%;transform:translateY(calc(-50% - 7px));width:34px;height:34px;border-radius:50%;background:var(--surface);
+    border:1px solid var(--line);box-shadow:var(--shadow-sm);display:grid;place-items:center;cursor:pointer;z-index:2;color:var(--ink)}
+  .hnav.prev{left:4px} .hnav.next{right:4px}
+  .hnav svg{width:17px;height:17px}
+  .hdots{display:flex;justify-content:center;gap:7px;margin:0 0 20px}
+  .hdot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s ease;padding:0;border:none}
+  .hdot.on{background:var(--accent);width:22px;border-radius:5px}
+
   /* Bottom nav */
   .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--nav-h) + env(safe-area-inset-bottom));
     padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
@@ -1176,6 +1202,7 @@ function switchTab(id){
   state.tab=id;render();window.scrollTo({top:0});
 }
 const CTX={
+  home:['',''],
   you:['You','Your stats and training focus.'],
   gear:['Your Equipment','Pick everything you can train with.'],
   plan:['Your Schedule','How many days a week can you train?'],
@@ -1183,16 +1210,73 @@ const CTX={
   progress:['Profile','Track your weight and watch your lifts climb.'],
 };
 function render(){
-  renderNav();
+  document.body.classList.toggle('home',state.tab==='home');
+  if(state.tab!=='home')renderNav();
   const c=CTX[state.tab];
   $('#ctxTitle').textContent=c[0];
   $('#ctxSub').textContent=c[1];
-  if(state.tab==='you')renderYou();
+  if(state.tab==='home')renderHome();
+  else if(state.tab==='you')renderYou();
   else if(state.tab==='gear')renderGear();
   else if(state.tab==='plan')renderPlan();
   else if(state.tab==='train')renderTrain();
   else if(state.tab==='progress')renderProgress();
   save();
+}
+
+/* ---- HOME ---- */
+const HOME_SLIDES=[
+  {n:'Tip 01',t:'Nutrition drives your results',
+   icon:'<path d="M12 3c-1 1.5-1 3 0 4M12 7a7 7 0 016 11c-1 1.4-2.7 2-6 2s-5-.6-6-2a7 7 0 016-11z"/>',
+   body:"Training breaks your muscles down, food is what rebuilds them stronger, so what you eat matters as much as what you lift. Aim for roughly 0.7 to 1 gram of protein per pound of bodyweight each day, spread across your meals so your body always has material to repair with. Do not fear carbs, they refuel your muscles and fuel hard sets. Eat enough total calories to support your goal, whether that is building muscle or losing fat, since a big deficit while trying to get stronger works against you. Whole foods and a little planning beat any supplement on the shelf."},
+  {n:'Tip 02',t:'Rest is where the growth happens',
+   icon:'<path d="M20 14.5A8 8 0 1110 4a6.5 6.5 0 0010 10.5z"/>',
+   body:"Every hard set creates a small amount of damage, and it is during the hours after training, not during the lift itself, that your body actually rebuilds that tissue stronger. Sleep is the single biggest recovery tool you have, so protect 7 to 9 hours a night whenever you can. Give a muscle group at least a day, sometimes two, before you train it hard again, and if you feel unusually run down, sore for days, or your lifts keep stalling, take an easy deload week instead of pushing through. Training hard is only half the equation, recovering well is the other half."},
+  {n:'Tip 03',t:'Consistency beats intensity every time',
+   icon:'<path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/>',
+   body:"Three solid workouts a week for a year will always beat six brutal ones a week for a month that burns you out by week five. Real strength and muscle come from small, repeated jumps over a long stretch of time, a little more weight, one more rep, slightly better form, session after session. Results in the mirror take weeks to show and months to really compound, so do not judge a single workout, or even a single week, and definitely do not compare your week one to someone else's year three. Show up on your bad days too, those are often the ones that matter most."},
+  {n:'Tip 04',t:'Good form protects your progress',
+   icon:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+   body:"The heaviest weight you can move with sloppy technique is never actually the best set, it just feels that way in the moment. Moving slower and under control, especially on the way down, builds more muscle than swinging a weight up and dropping it, and it keeps your joints healthy enough to keep training for years, not weeks. Injuries do not just hurt, they steal your consistency, which is the one thing that actually drives results. Think about the muscle doing the work instead of just moving the weight from point A to point B, and leave a rep or two in the tank on most sets."},
+  {n:'Tip 05',t:'Track it, trust it, and be patient',
+   icon:'<path d="M9 11l3 3L22 4"/><path d="M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h11"/>',
+   body:"You cannot improve what you do not measure, so log your weight, reps and bodyweight here and let the numbers tell you the truth instead of guessing. Plateaus are a normal part of the process, not a sign that something is broken, and the fix is almost always more consistency, more sleep, or more food, not a brand new program every two weeks. Real transformations are usually measured in months, sometimes a year or more, not days, so give your plan a real chance before you judge it. Stick with the process, keep showing up, and let the small wins add up into a completely different body over time."},
+];
+let homeSlide=0;
+function renderHome(){
+  let h='<div class="homepage">'+
+    '<div class="home-intro"><div class="home-mark">F</div><h1>Welcome to FORGE</h1>'+
+    '<p>FORGE builds you a complete training program around your goals, the equipment you actually have, and how many days you can realistically train, then keeps every animated exercise, your rest timer, and your progress all in one place. Swipe through a few quick training tips below, then jump in and build your program.</p></div>'+
+    '<div class="home-carousel-wrap">'+
+      '<button class="hnav prev" id="hPrev" aria-label="Previous tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>'+
+      '<button class="hnav next" id="hNext" aria-label="Next tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>'+
+      '<div class="home-carousel" id="hCarousel">'+
+        HOME_SLIDES.map(s=>(
+          '<div class="hslide"><div class="hs-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#df5a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+s.icon+'</svg></div>'+
+          '<div class="hs-n">'+s.n+'</div><h3>'+s.t+'</h3><p>'+s.body+'</p></div>'
+        )).join('')+
+      '</div>'+
+    '</div>'+
+    '<div class="hdots" id="hDots">'+HOME_SLIDES.map((s,i)=>'<button class="hdot'+(i===homeSlide?' on':'')+'" data-i="'+i+'"></button>').join('')+'</div>'+
+    '<button class="btn stick" id="homeEnter">'+(setupDone()?'Continue to your program':'Let\'s build your program')+'</button>'+
+  '</div>';
+  $('#view').innerHTML=h;
+  const car=$('#hCarousel');
+  const setDot=i=>{homeSlide=i;$$('#hDots .hdot').forEach((d,j)=>d.classList.toggle('on',j===i));};
+  const goTo=i=>{i=Math.max(0,Math.min(HOME_SLIDES.length-1,i));setDot(i);car.scrollTo({left:i*car.clientWidth,behavior:'smooth'});};
+  $$('#hDots .hdot').forEach(d=>d.onclick=()=>goTo(+d.dataset.i));
+  $('#hPrev').onclick=()=>goTo(homeSlide-1);
+  $('#hNext').onclick=()=>goTo(homeSlide+1);
+  let scrollT;
+  car.onscroll=()=>{
+    clearTimeout(scrollT);
+    scrollT=setTimeout(()=>{
+      const i=Math.round(car.scrollLeft/car.clientWidth);
+      if(i!==homeSlide)setDot(i);
+    },80);
+  };
+  car.scrollLeft=homeSlide*car.clientWidth;
+  $('#homeEnter').onclick=()=>switchTab(setupDone()?'train':(state.goal?'gear':'you'));
 }
 
 /* ---- TIP ---- */
@@ -1621,7 +1705,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 load();
 $('#rest').onclick=stopRest;
-state.tab = setupDone() ? 'train' : (state.goal ? 'gear' : 'you');
+state.tab = 'home';
 render();
 </script>
 </body>
