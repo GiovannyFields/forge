@@ -279,6 +279,25 @@
   .bwt-h{display:flex;justify-content:space-between;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--faint);margin-bottom:4px}
   .bwt-h span{text-transform:none;letter-spacing:0;color:var(--brand-2);font-weight:700}
 
+  /* Weight tracker (Profile tab) */
+  .wtrack{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+  .wt-h{font-family:var(--fd);font-weight:800;font-size:16px;margin-bottom:12px}
+  .wt-now{display:flex;align-items:flex-end;gap:18px;margin-bottom:12px}
+  .wt-cur b{font-family:var(--fd);font-size:34px;font-weight:800;line-height:1;color:var(--ink)}
+  .wt-cur span{font-size:12px;color:var(--faint);font-weight:600;margin-left:4px}
+  .wt-chg{display:flex;flex-direction:column;font-family:var(--fd);font-weight:800;font-size:16px;padding-bottom:2px}
+  .wt-chg span{font-family:var(--fb);font-size:10.5px;font-weight:600;color:var(--faint)}
+  .wt-chg.down{color:var(--brand-2)} .wt-chg.up{color:var(--accent)}
+  .wt-row{display:flex;gap:8px;margin-bottom:9px}
+  .wt-row .pin{flex:1}
+  .ghostbtn{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+  .goalprog{margin:6px 0 12px}
+  .gp-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:5px}
+  .gp-bar{height:9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);overflow:hidden}
+  .gp-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand-2),var(--accent));border-radius:99px;transition:width .4s ease}
+  .gp-lab{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);font-weight:600;margin-top:4px}
+  .wt-empty{font-size:13px;color:var(--faint);text-align:center;padding:16px 8px;background:var(--surface-2);border-radius:11px;margin-top:6px}
+
   /* Session bar (Start / End workout) */
   .sessbar{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
   .sessbar.on{background:var(--brand);border-color:transparent}
@@ -560,7 +579,7 @@ function emphasisOf(id){const g=GOALS.find(x=>x.id===id);return g?g.emphasis:'ba
 
 /* ---------------- STATE ---------------- */
 let state={goal:null,equip:new Set(['bodyweight']),days:null,routine:null,activeDay:0,tab:'you',
-  profile:{sex:'',age:'',heightIn:'',weightLb:''},favorites:new Set(),bwlog:[],session:null};
+  profile:{sex:'',age:'',heightIn:'',weightLb:'',goalWeight:''},favorites:new Set(),bwlog:[],session:null};
 let logs={};
 let advice={};
 const $=s=>document.querySelector(s);
@@ -1142,7 +1161,7 @@ const TABS=[
   {id:'gear',label:'Gear',icon:'<path d="M4 7h10M4 12h16M4 17h7"/><circle cx="18" cy="7" r="2.4"/><circle cx="9" cy="17" r="2.4"/>'},
   {id:'plan',label:'Plan',icon:'<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/>'},
   {id:'train',label:'Train',icon:'<path d="M3 12h2M19 12h2M6.5 8.5v7M17.5 8.5v7M6.5 12h11"/>'},
-  {id:'progress',label:'Progress',icon:'<path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/>'},
+  {id:'progress',label:'Profile',icon:'<path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/>'},
 ];
 function renderNav(){
   $('#nav').innerHTML=TABS.map(t=>(
@@ -1161,7 +1180,7 @@ const CTX={
   gear:['Your Equipment','Pick everything you can train with.'],
   plan:['Your Schedule','How many days a week can you train?'],
   train:['Your Program',''],
-  progress:['Your Progress','Log your lifts and watch them climb over time.'],
+  progress:['Profile','Track your weight and watch your lifts climb.'],
 };
 function render(){
   renderNav();
@@ -1198,19 +1217,16 @@ function bwSpark(){
   return '<svg width="100%" height="'+H+'" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="'+area+'" fill="rgba(31,58,43,.10)"/><path d="'+d+'" fill="none" stroke="var(--brand-2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+pts[n-1][0].toFixed(1)+'" cy="'+pts[n-1][1].toFixed(1)+'" r="2.8" fill="var(--brand-2)"/></svg>';
 }
 function renderYou(){
-  const p=state.profile,bmi=bmiOf();
+  const p=state.profile;
   const ft=p.heightIn?Math.floor(p.heightIn/12):'',inch=p.heightIn?p.heightIn%12:'';
-  const bwChange=state.bwlog.length>1?(state.bwlog[state.bwlog.length-1].w-state.bwlog[0].w):0;
   let h='<div class="prof">'+
-    '<div class="prof-h">About you<span class="prof-sub">Powers your calorie estimates and weight tracking</span></div>'+
+    '<div class="prof-h">About you<span class="prof-sub">Powers your calorie estimates. Track weight over time in the Profile tab.</span></div>'+
     '<div class="sexrow">'+['male','female'].map(sx=>'<button class="sexb'+(p.sex===sx?' on':'')+'" data-sex="'+sx+'">'+(sx==='male'?'Male':'Female')+'</button>').join('')+'</div>'+
     '<div class="pfields">'+
       '<label>Age<input class="pin" id="p-age" type="number" inputmode="numeric" placeholder="yrs" value="'+(p.age||'')+'"></label>'+
       '<label>Height<span class="hgrp"><input class="pin" id="p-ft" type="number" inputmode="numeric" placeholder="ft" value="'+ft+'"><input class="pin" id="p-in" type="number" inputmode="numeric" placeholder="in" value="'+inch+'"></span></label>'+
-      '<label>Weight<span class="hgrp"><input class="pin" id="p-wt" type="number" inputmode="numeric" placeholder="lb" value="'+(p.weightLb||'')+'"><button class="wlog" id="logWt">Log</button></span></label>'+
+      '<label>Weight<input class="pin" id="p-wt" type="number" inputmode="numeric" placeholder="lb" value="'+(p.weightLb||'')+'"></label>'+
     '</div>'+
-    (bmi?'<div class="bmirow"><span>BMI <b>'+bmi.toFixed(1)+'</b></span><span class="bmit">'+(bmi<18.5?'Underweight':bmi<25?'Healthy range':bmi<30?'Overweight':'Obese')+'</span></div>':'')+
-    (state.bwlog.length>1?'<div class="bwtrend"><div class="bwt-h">Weight trend<span>'+(bwChange>0?'+':'')+bwChange+' lb over '+state.bwlog.length+' entries</span></div>'+bwSpark()+'</div>':'')+
   '</div>';
   h+='<div class="klabel">Your focus</div>';
   h+=GOALS.map(g=>(
@@ -1227,15 +1243,8 @@ function renderYou(){
     const f=+$('#p-ft').value||0,i=+$('#p-in').value||0;p.heightIn=(f||i)?f*12+i:'';
     save();
   };
-  ['#p-age','#p-ft','#p-in','#p-wt'].forEach(sel=>{const el=$(sel);el.oninput=saveProf;el.onchange=()=>{saveProf();renderYou();};});
+  ['#p-age','#p-ft','#p-in','#p-wt'].forEach(sel=>{const el=$(sel);el.oninput=saveProf;});
   $$('#view .sexb').forEach(b=>b.onclick=()=>{p.sex=p.sex===b.dataset.sex?'':b.dataset.sex;save();renderYou();});
-  $('#logWt').onclick=()=>{
-    const w=+$('#p-wt').value;if(!w){toast('Enter your weight first');return;}
-    p.weightLb=String(w);const k=dayKey(Date.now());
-    const ex=state.bwlog.find(x=>dayKey(x.t)===k);
-    if(ex)ex.w=w;else state.bwlog.push({t:Date.now(),w:w});
-    save();renderYou();toast('Weight logged: '+w+' lb');
-  };
   $$('#view .goal').forEach(el=>el.onclick=()=>{state.goal=el.dataset.goal;if(state.routine)generateRoutine();renderYou();save();});
   $('#youNext').onclick=()=>switchTab('gear');
 }
@@ -1536,29 +1545,72 @@ function lineChart(arr,key){
   let area='M'+px(0).toFixed(1)+' '+H+' '+d.replace('M','L')+'L'+px(n-1).toFixed(1)+' '+H+' Z';
   return '<svg width="100%" height="'+H+'" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="margin-top:8px"><path d="'+area+'" fill="rgba(223,90,42,.10)"/><path d="'+d+'" fill="none" stroke="#df5a2a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'+dots+'</svg>';
 }
+function weightTracker(){
+  const bw=state.bwlog,p=state.profile;
+  const cur=bw.length?bw[bw.length-1].w:(+p.weightLb||null);
+  const start=bw.length?bw[0].w:cur;
+  const change=(cur!=null&&start!=null)?Math.round((cur-start)*10)/10:0;
+  const goal=+p.goalWeight||null;
+  let goalHtml='';
+  if(goal&&start&&goal!==start){
+    const losing=goal<start;
+    const done=losing?Math.max(0,start-cur):Math.max(0,cur-start);
+    const total=Math.abs(goal-start);
+    const pct=Math.max(0,Math.min(100,Math.round(100*done/total)));
+    const toGo=Math.round(Math.abs(cur-goal)*10)/10;
+    const reached=losing?cur<=goal:cur>=goal;
+    goalHtml='<div class="goalprog"><div class="gp-top"><span>'+(reached?'Goal reached 🎉':toGo+' lb to '+(losing?'lose':'gain'))+'</span><span>'+pct+'%</span></div>'+
+      '<div class="gp-bar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="gp-lab"><span>Start '+start+'</span><span>Goal '+goal+'</span></div></div>';
+  }
+  const arrow=change<0?'▼':change>0?'▲':'';
+  const chgCls=change<0?'down':change>0?'up':'';
+  const chart=bw.length>1?lineChart(bw.map(x=>({w:x.w})),'w'):'<div class="wt-empty">Log your weight a few times and your trend line shows up here.</div>';
+  return '<div class="wtrack">'+
+    '<div class="wt-h">Weight tracker</div>'+
+    '<div class="wt-now"><div class="wt-cur"><b>'+(cur!=null?cur:'--')+'</b><span>lb now</span></div>'+
+      (bw.length>1?'<div class="wt-chg '+chgCls+'">'+arrow+' '+Math.abs(change)+' lb<span>since start</span></div>':'')+'</div>'+
+    '<div class="wt-row"><input class="pin" id="wt-in" type="number" inputmode="decimal" placeholder="log today\'s weight"><button class="wlog" id="wt-log">Log</button></div>'+
+    '<div class="wt-row"><input class="pin" id="wt-goal" type="number" inputmode="decimal" placeholder="goal weight (lb)" value="'+(p.goalWeight||'')+'"><button class="wlog ghostbtn" id="wt-setgoal">Set goal</button></div>'+
+    goalHtml+chart+
+  '</div>';
+}
 function renderProgress(){
   const ids=Object.keys(logs).filter(id=>logs[id]&&logs[id].length&&exById(id));
-  if(!ids.length){
-    $('#view').innerHTML='<div class="empty"><div class="ei2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9a9385" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg></div><h3>No lifts logged yet</h3><p>Head to Train, enter the weight and reps you hit, and your numbers will show up here climbing over time.</p></div>';
-    return;
+  let h=weightTracker();
+  if(ids.length){
+    ids.sort((a,b)=>logs[b][logs[b].length-1].t-logs[a][logs[a].length-1].t);
+    const wdays=new Set(),wweek=new Set(),now=Date.now();
+    ids.forEach(id=>logs[id].forEach(x=>{const k=dayKey(x.t);wdays.add(k);if(now-x.t<7*864e5)wweek.add(k);}));
+    h+='<div class="klabel">Your lifts</div>';
+    h+='<div class="stats">'
+      +'<div class="stat"><b>'+wdays.size+'</b><span>workout'+(wdays.size!==1?'s':'')+' total</span></div>'
+      +'<div class="stat"><b>'+wweek.size+'</b><span>this week</span></div>'
+      +'<div class="stat"><b>'+ids.length+'</b><span>lifts tracked</span></div></div>';
+    ids.forEach(id=>{
+      const ex=exById(id),arr=logs[id],best=bestOf(id),last=arr[arr.length-1],first=arr[0];
+      const m=exMetric(ex),unit=m==='secs'?' sec':m==='reps'?' reps':' lb';
+      const gain=(last[m]||0)-(first[m]||0);
+      h+='<div class="pcard"><div class="ph"><div class="pn">'+ex.name+'</div><div class="pb">best <b>'+(best[m]||0)+'</b>'+unit+'</div></div>'+
+        '<div class="pb" style="color:var(--ink-2)">'+arr.length+' session'+(arr.length>1?'s':'')+(gain>0?', up '+gain+unit+' since you started':'')+'</div>'+
+        lineChart(arr,m)+'</div>';
+    });
+  }else{
+    h+='<div class="empty" style="padding:36px 24px 20px"><div class="ei2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9a9385" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg></div><h3>No lifts logged yet</h3><p>Head to Train, log the sets you hit, and your lifts will show up here climbing over time.</p></div>';
   }
-  ids.sort((a,b)=>logs[b][logs[b].length-1].t-logs[a][logs[a].length-1].t);
-  const wdays=new Set(),wweek=new Set(),now=Date.now();
-  ids.forEach(id=>logs[id].forEach(x=>{const k=dayKey(x.t);wdays.add(k);if(now-x.t<7*864e5)wweek.add(k);}));
-  let h='<div class="stats">'
-    +'<div class="stat"><b>'+wdays.size+'</b><span>workout'+(wdays.size!==1?'s':'')+' total</span></div>'
-    +'<div class="stat"><b>'+wweek.size+'</b><span>this week</span></div>'
-    +'<div class="stat"><b>'+ids.length+'</b><span>lifts tracked</span></div></div>';
-  h+=tip('Watch the line climb','Try to add a little weight or one more rep whenever a lift feels easy. Small jumps add up fast.');
-  ids.forEach(id=>{
-    const ex=exById(id),arr=logs[id],best=bestOf(id),last=arr[arr.length-1],first=arr[0];
-    const m=exMetric(ex),unit=m==='secs'?' sec':m==='reps'?' reps':' lb';
-    const gain=(last[m]||0)-(first[m]||0);
-    h+='<div class="pcard"><div class="ph"><div class="pn">'+ex.name+'</div><div class="pb">best <b>'+(best[m]||0)+'</b>'+unit+'</div></div>'+
-      '<div class="pb" style="color:var(--ink-2)">'+arr.length+' session'+(arr.length>1?'s':'')+(gain>0?', up '+gain+unit+' since you started':'')+'</div>'+
-      lineChart(arr,m)+'</div>';
-  });
   $('#view').innerHTML=h;
+  const logW=()=>{
+    const v=+$('#wt-in').value;if(!v){toast('Enter your weight first');return;}
+    state.profile.weightLb=String(v);const k=dayKey(Date.now());
+    const ex=state.bwlog.find(x=>dayKey(x.t)===k);
+    if(ex)ex.w=v;else state.bwlog.push({t:Date.now(),w:v});
+    save();renderProgress();toast('Weight logged: '+v+' lb');
+  };
+  $('#wt-log').onclick=logW;
+  $('#wt-in').onkeydown=e=>{if(e.key==='Enter')logW();};
+  const setGoal=()=>{state.profile.goalWeight=$('#wt-goal').value;save();renderProgress();toast(state.profile.goalWeight?'Goal set: '+state.profile.goalWeight+' lb':'Goal cleared');};
+  $('#wt-setgoal').onclick=setGoal;
+  $('#wt-goal').onkeydown=e=>{if(e.key==='Enter')setGoal();};
 }
 
 /* ---- TOAST ---- */
