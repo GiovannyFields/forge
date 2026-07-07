@@ -1551,7 +1551,7 @@ function renderDay(){
   }
   h+='<div class="dayprog"><div class="dp-t">'+(doneEx>=day.slots.length?'Day complete. Great work':startedEx?doneEx+' of '+day.slots.length+' exercises finished today':'Log your sets as you go and watch this fill up')+'</div>'+
     '<div class="dp-bar"><i style="width:'+Math.round(100*doneEx/Math.max(1,day.slots.length))+'%"></i></div></div>';
-  h+=tip('Sets and reps, explained','A rep is one full repetition of the move. A set is one block of reps done back to back, then you rest. So 4 sets of 6 to 12 reps means you do 6 to 12 reps, rest, then repeat that whole block 4 times.');
+  h+=tip('Sets and reps, explained','A rep is just one push up, one curl, one squat, one time doing the move. A set is doing it a few times in a row before you stop and rest. So 4 sets of 6 to 12 reps means: do the move 6 to 12 times, rest, then do that same thing 3 more times.');
   day.slots.forEach((id,si)=>{
     const ex=exById(id);if(!ex)return;
     const sr=setsReps(ex),tgt=srTarget(sr),mode=exMetric(ex);
