@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#1f3a2b" />
 <meta name="description" content="FORGE builds you a complete training program from your goals, your equipment and your schedule, then tracks every lift as you get stronger." />
 <link rel="manifest" href="manifest.webmanifest" />
@@ -22,7 +22,7 @@
     --surface-2:#f7f3ea;
     --ink:#17150f;
     --ink-2:#5b554a;
-    --faint:#9a9385;
+    --faint:#7d7669;
     --line:#e7e0d1;
     --line-2:#efe9db;
     --brand:#1f3a2b;
@@ -67,12 +67,12 @@
   .view{padding:6px 20px 8px;animation:fade .3s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .klabel{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--faint);font-weight:700;margin:22px 0 12px}
+  .klabel{font-size:12.5px;text-transform:uppercase;letter-spacing:.13em;color:var(--faint);font-weight:700;margin:22px 0 12px}
   .klabel:first-child{margin-top:8px}
 
   /* Tip card */
   .tip{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
-    border-radius:13px;padding:14px 15px;margin:14px 0;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+    border-radius:13px;padding:14px 15px;margin:14px 0;position:relative;overflow:hidden}
   .tip:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
   .tip .ti{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:var(--accent-soft);display:grid;place-items:center;margin-left:4px}
   .tip b{display:block;font-size:13.5px;font-weight:700;margin-bottom:2px}
@@ -118,7 +118,10 @@
   .eq .chk{position:absolute;top:7px;right:7px;width:18px;height:18px;border-radius:50%;background:var(--accent);
     color:#fff;display:none;place-items:center;font-weight:800;font-size:10px}
   .eq.sel .chk{display:grid}
-  .eq.lock{opacity:.6}
+  .eq.lock{cursor:default;box-shadow:none;border-style:dashed}
+  .eq.lock:active{transform:none}
+  .eq.lock.sel{border-color:var(--line);background:var(--surface)}
+  .alwx{font-size:10px;color:var(--faint);font-weight:600;margin-top:3px}
   .eqcount{font-size:13px;color:var(--faint);margin-top:16px;text-align:center;font-weight:500}
   .eqcount b{color:var(--accent)}
   .counter{display:flex;align-items:center;gap:15px;background:var(--brand);color:#f3efe4;border-radius:14px;padding:15px 18px;margin:2px 0 16px;box-shadow:var(--shadow-sm)}
@@ -158,9 +161,9 @@
   .ex{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
   .ex-fig{height:184px;background:radial-gradient(160px 140px at 50% 42%,rgba(223,90,42,.07),transparent 70%),var(--surface-2);
     display:grid;place-items:center;position:relative;border-bottom:1px solid var(--line-2)}
-  .ex-fig .badge{position:absolute;top:11px;left:11px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  .ex-fig .badge{position:absolute;top:11px;left:11px;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
     padding:4px 9px;border-radius:6px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2)}
-  .ex-fig .tone{position:absolute;top:11px;right:11px;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  .ex-fig .tone{position:absolute;top:40px;left:11px;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
     padding:4px 8px;border-radius:6px;background:var(--gold);color:#3a2c08}
   .ex-b{padding:16px 17px}
   .ex-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
@@ -169,7 +172,7 @@
   .ex-eq{font-size:11.5px;color:var(--faint);margin-top:2px;font-weight:500}
   .ex-sr{flex-shrink:0;text-align:center;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:7px 11px}
   .ex-sr .b{font-family:var(--fd);font-size:16px;font-weight:800;color:var(--brand)}
-  .ex-sr .l{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:700}
+  .ex-sr .l{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:700}
   .cues{margin-top:13px;display:grid;gap:8px}
   .cue{display:flex;gap:10px;font-size:13.5px}
   .cue .n{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);
@@ -194,6 +197,8 @@
   .spark{margin-top:10px;display:flex;align-items:center;gap:10px}
   .spark svg{flex-shrink:0}
   .spark .sk{font-size:11.5px;color:var(--faint)}
+  .undob{background:none;border:none;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;
+    padding:10px 2px 4px;font-family:var(--fb);text-decoration:underline;text-underline-offset:3px}
   .advice{margin-top:11px;font-size:12.5px;border-radius:10px;padding:10px 12px;line-height:1.45;font-weight:500;display:flex;gap:8px;align-items:flex-start}
   .advice .ai{flex-shrink:0;font-weight:800}
   .advice.warn{background:rgba(223,90,42,.10);border:1px solid rgba(223,90,42,.32);color:#a4421b}
@@ -215,7 +220,7 @@
   .so .se{font-size:11px;color:var(--faint)}
 
   /* Progress */
-  .pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:13px;box-shadow:var(--shadow-sm)}
+  .pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:13px}
   .pcard .ph{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
   .pcard .pn{font-family:var(--fd);font-weight:800;font-size:15.5px}
   .pcard .pb{font-size:12px;color:var(--faint);font-weight:600}
@@ -243,13 +248,13 @@
   .hslide .hs-n{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
   .hslide h3{font-family:var(--fd);font-size:19.5px;font-weight:800;margin:0 0 10px;letter-spacing:-.01em}
   .hslide p{color:var(--ink-2);font-size:14px;line-height:1.62;margin:0}
-  .hnav{position:absolute;top:50%;transform:translateY(calc(-50% - 7px));width:34px;height:34px;border-radius:50%;background:var(--surface);
+  .hnav{position:absolute;top:50%;transform:translateY(calc(-50% - 7px));width:44px;height:44px;border-radius:50%;background:var(--surface);
     border:1px solid var(--line);box-shadow:var(--shadow-sm);display:grid;place-items:center;cursor:pointer;z-index:2;color:var(--ink)}
-  .hnav.prev{left:4px} .hnav.next{right:4px}
-  .hnav svg{width:17px;height:17px}
-  .hdots{display:flex;justify-content:center;gap:7px;margin:0 0 20px}
-  .hdot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s ease;padding:0;border:none}
-  .hdot.on{background:var(--accent);width:22px;border-radius:5px}
+  .hnav.prev{left:2px} .hnav.next{right:2px}
+  .hnav svg{width:21px;height:21px}
+  .hdots{display:flex;justify-content:center;gap:9px;margin:0 0 20px}
+  .hdot{width:13px;height:13px;border-radius:50%;background:var(--line);cursor:pointer;transition:.2s ease;padding:0;border:none}
+  .hdot.on{background:var(--accent);width:30px;border-radius:8px}
 
   /* Bottom nav */
   .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--nav-h) + env(safe-area-inset-bottom));
@@ -265,7 +270,7 @@
   .nbtn.act .ndot{opacity:1}
 
   /* Day progress */
-  .dayprog{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+  .dayprog{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
   .dayprog .dp-t{font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:8px}
   .dayprog .dp-bar{height:7px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);overflow:hidden}
   .dayprog .dp-bar i{display:block;height:100%;background:var(--brand-2);border-radius:99px;transition:width .4s ease}
@@ -281,7 +286,7 @@
 
   /* Progress stats */
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-  .stat{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 8px;text-align:center;box-shadow:var(--shadow-sm)}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 8px;text-align:center}
   .stat b{display:block;font-family:var(--fd);font-size:24px;font-weight:800;color:var(--brand)}
   .stat span{font-size:11px;color:var(--faint);font-weight:600}
 
@@ -338,10 +343,11 @@
   .sess-end{background:#f3efe4;color:var(--brand)}
 
   /* Favorite star */
-  .favb{position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--line);
-    display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow-sm);padding:0}
-  .favb.on{background:var(--accent-soft);border-color:transparent}
-  .favb svg{display:block}
+  .favb{position:absolute;top:10px;right:10px;z-index:2;min-height:44px;border-radius:999px;background:var(--surface);border:1px solid var(--line);
+    display:flex;align-items:center;gap:7px;cursor:pointer;box-shadow:var(--shadow-sm);padding:9px 14px;
+    font-family:var(--fb);font-size:12.5px;font-weight:700;color:var(--ink-2)}
+  .favb.on{background:var(--accent-soft);border-color:rgba(223,90,42,.35);color:var(--accent)}
+  .favb svg{display:block;flex-shrink:0}
 
   .toast{position:fixed;bottom:calc(var(--nav-h) + 22px);left:50%;transform:translateX(-50%) translateY(16px);
     background:var(--brand);color:#f3efe4;padding:12px 20px;border-radius:11px;box-shadow:var(--shadow);font-size:14px;font-weight:600;
@@ -1383,7 +1389,7 @@ function renderGear(){
   h+='<div class="presets">'+PRESETS.map((p,i)=>'<button class="chip" data-p="'+i+'">'+p.name+'</button>').join('')+'</div>';
   h+='<div class="egrid">'+EQUIPMENT.map(e=>(
     '<div class="eq '+(state.equip.has(e.id)?'sel':'')+(e.always?' lock':'')+'" data-eq="'+e.id+'">'+
-    '<div class="chk">✓</div><div class="ei">'+equipSvg(e.icon)+'</div><div class="en">'+e.name+'</div></div>'
+    (e.always?'':'<div class="chk">✓</div>')+'<div class="ei">'+equipSvg(e.icon)+'</div><div class="en">'+e.name+'</div>'+(e.always?'<div class="alwx">always included</div>':'')+'</div>'
   )).join('')+'</div>';
   h+=tip('No gym, no problem','Bodyweight training builds real muscle. Start with what you have and add gear over time as you grow.');
   h+='<button class="btn stick" id="gearNext">Continue to schedule</button>';
@@ -1528,10 +1534,13 @@ function renderTrain(){
   h+='<button class="btn ghost" id="reroll" style="margin-top:6px">↻ Shuffle this program</button>';
   $('#view').innerHTML=h;
   $$('#view .dtab').forEach(el=>el.onclick=()=>{state.activeDay=+el.dataset.i;renderTrain();save();});
-  $('#reroll').onclick=()=>{generateRoutine();renderTrain();toast('Fresh program built');};
+  $('#reroll').onclick=()=>{
+    if(!confirm('Build a fresh program? Your current week of exercises will be replaced with new ones. Your logged sets and progress are kept.'))return;
+    generateRoutine();renderTrain();toast('Fresh program built');
+  };
   renderDay();
 }
-const STAR='<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.5 1.2 6.6L12 17.8 6 20.6l1.2-6.6L2.4 9l6.6-.9z" stroke="#df5a2a" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+const STAR='<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.5 1.2 6.6L12 17.8 6 20.6l1.2-6.6L2.4 9l6.6-.9z" fill="none" stroke="#df5a2a" stroke-width="1.8" stroke-linejoin="round"/></svg>';
 const STARF='<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.5 1.2 6.6L12 17.8 6 20.6l1.2-6.6L2.4 9l6.6-.9z" fill="#df5a2a" stroke="#df5a2a" stroke-width="1.8" stroke-linejoin="round"/></svg>';
 function renderDay(){
   const day=state.routine[state.activeDay];
@@ -1565,7 +1574,7 @@ function renderDay(){
     else row='<input class="tin" type="number" inputmode="numeric" placeholder="weight (lb)" id="w-'+si+'" value="'+(last&&last.w>0?last.w:'')+'"><span class="txx">x</span><input class="tin" type="number" inputmode="numeric" placeholder="reps" id="r-'+si+'"><button class="tlog" data-log="'+id+'" data-si="'+si+'">Log</button>';
     h+='<div class="ex">'+
       '<div class="ex-fig"><div class="badge">'+(gname[ex.group]||ex.group)+'</div>'+(ex.toning?'<div class="tone">Detail</div>':'')+
-        '<button class="favb'+(isFav(id)?' on':'')+'" data-fav="'+id+'" title="Favorite">'+(isFav(id)?STARF:STAR)+'</button>'+
+        '<button class="favb'+(isFav(id)?' on':'')+'" data-fav="'+id+'" title="Favorite">'+(isFav(id)?STARF+'Favorited':STAR+'Favorite')+'</button>'+
         poseSvg(ex.pose,168,ex.need.length>0,loadOf(ex))+'</div>'+
       '<div class="ex-b">'+
         '<div class="ex-h"><div><h3 class="ex-nm">'+ex.name+(exFin?' <span class="exdone">✓</span>':'')+'</h3><div class="ex-tg">Targets '+ex.part+'</div><div class="ex-eq">'+eq+'</div></div>'+
@@ -1575,6 +1584,7 @@ function renderDay(){
         '<div class="track">'+
           '<div class="track-top"><span class="tt">'+(tc?'Today '+tc+' of '+sr.sets+' sets':'Track your sets')+'</span>'+(last?'<span class="last">Last: <b>'+fmtEntry(ex,last)+'</b></span>':'<span class="last">No sets logged yet</span>')+'</div>'+
           '<div class="track-row">'+row+'</div>'+
+          (tc?'<button class="undob" data-undo="'+id+'">Undo my last set</button>':'')+
           (best?'<div class="spark">'+sparkSvg(id)+'<span class="sk">Best so far '+fmtEntry(ex,best)+' over '+logs[id].length+' session'+(logs[id].length>1?'s':'')+'</span></div>':'')+
           (advice[id]?'<div class="advice '+advice[id].t+'"><span class="ai">'+advice[id].i+'</span><span>'+advice[id].m+'</span></div>':'')+
         '</div>'+
@@ -1596,6 +1606,13 @@ function renderDay(){
     if(setsNow<target)startRest(currentRest(ex));else stopRest();
     toast(setsNow>=target?ex.name+' done for today':'Logged '+okMsg);
     renderDay();
+  });
+  $$('#dayContent [data-undo]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.undo,a=logs[id];
+    if(!a||!a.length)return;
+    a.pop();if(!a.length)delete logs[id];
+    delete advice[id];saveLogs();stopRest();
+    toast('Removed your last set');renderDay();
   });
   $$('#dayContent [data-swap]').forEach(b=>b.onclick=()=>toggleSwap(+b.dataset.swap));
   $$('#dayContent .tin').forEach(inp=>inp.onkeydown=e=>{
